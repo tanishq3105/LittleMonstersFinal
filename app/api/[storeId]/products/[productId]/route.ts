@@ -21,7 +21,6 @@ export async function GET (
                 images: true,
                 category: true,
                 size: true,
-                color: true,
                 duration: true,
                 age: true,
                 destination: true
@@ -48,7 +47,6 @@ export async function PATCH (
             name,
             price,
             categoryId,
-            colorId,
             sizeId,
             durationId,
             ageId,
@@ -69,8 +67,6 @@ export async function PATCH (
         if (!price) new NextResponse("Price is required", { status: 400});
 
         if (!categoryId) new NextResponse("Category id is required", { status: 400});
-
-        if (!colorId) new NextResponse("Color id is required", { status: 400});
 
         if (!sizeId) new NextResponse("Size id is required", { status: 400});
 
@@ -117,7 +113,6 @@ export async function PATCH (
                 isArchived,
                 categoryId,
                 sizeId,
-                colorId,
                 durationId,
                 ageId,
                 destinationId,
