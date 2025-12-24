@@ -11,7 +11,8 @@ const ProductPage = async ({ params }: { params: Promise<{ productId: string, st
             images: true
         }
     });
-
+    
+      
     const categories = await prismadb.category.findMany({
         where: {
             storeId: storeId
@@ -47,12 +48,16 @@ const ProductPage = async ({ params }: { params: Promise<{ productId: string, st
             storeId: storeId
         },
     })
+    const safeProduct = product ? {
+        ...product,
+        price: Number(product.price) // Decimal → number, all other keys preserved
+      } : null;
 
     return (
         <div className="flex-col">
             <div className="flex-1 p-8 pt-6 space-y-4">
                 <ProductForm
-                    initialData={product}
+                    initialData={safeProduct}
                     colors={colors}
                     sizes={sizes}
                     durations={durations}

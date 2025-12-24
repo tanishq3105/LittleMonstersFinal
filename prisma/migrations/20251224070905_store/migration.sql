@@ -43,6 +43,9 @@ CREATE TABLE "Product" (
     "isFeatured" BOOLEAN NOT NULL DEFAULT false,
     "isArchived" BOOLEAN NOT NULL DEFAULT false,
     "sizeId" TEXT NOT NULL,
+    "durationId" TEXT,
+    "ageId" TEXT,
+    "destinationId" TEXT,
     "colorId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -82,6 +85,42 @@ CREATE TABLE "Size" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Size_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Duration" (
+    "id" TEXT NOT NULL,
+    "storeId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "value" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Duration_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Age" (
+    "id" TEXT NOT NULL,
+    "storeId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "value" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Age_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Destination" (
+    "id" TEXT NOT NULL,
+    "storeId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "value" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Destination_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -126,6 +165,15 @@ CREATE INDEX "Product_categoryId_idx" ON "Product"("categoryId");
 CREATE INDEX "Product_sizeId_idx" ON "Product"("sizeId");
 
 -- CreateIndex
+CREATE INDEX "Product_durationId_idx" ON "Product"("durationId");
+
+-- CreateIndex
+CREATE INDEX "Product_ageId_idx" ON "Product"("ageId");
+
+-- CreateIndex
+CREATE INDEX "Product_destinationId_idx" ON "Product"("destinationId");
+
+-- CreateIndex
 CREATE INDEX "Product_colorId_idx" ON "Product"("colorId");
 
 -- CreateIndex
@@ -139,6 +187,15 @@ CREATE INDEX "OrderItem_productId_idx" ON "OrderItem"("productId");
 
 -- CreateIndex
 CREATE INDEX "Size_storeId_idx" ON "Size"("storeId");
+
+-- CreateIndex
+CREATE INDEX "Duration_storeId_idx" ON "Duration"("storeId");
+
+-- CreateIndex
+CREATE INDEX "Age_storeId_idx" ON "Age"("storeId");
+
+-- CreateIndex
+CREATE INDEX "Destination_storeId_idx" ON "Destination"("storeId");
 
 -- CreateIndex
 CREATE INDEX "Color_storeId_idx" ON "Color"("storeId");

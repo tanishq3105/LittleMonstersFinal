@@ -125,7 +125,6 @@ export async function GET(
             where: {
                 storeId: storeId,
                 categoryId,
-                colorId,
                 sizeId,
                 durationId,
                 ageId,
@@ -136,7 +135,6 @@ export async function GET(
             include: {
                 images: true,
                 category: true,
-                color: true,
                 size: true,
                 duration: true,
                 age: true,

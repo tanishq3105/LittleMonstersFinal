@@ -20,9 +20,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 
 interface ProductFromProps {
-    initialData: Product & {
-        images: Image[]
-    } | null;
+    initialData: (Omit<Product, "price"> & { price: number; images: Image[] }) | null
     categories: Category[]
     colors: Color[]
     sizes: Size[]
@@ -36,7 +34,7 @@ const formSchema = z.object({
     images: z.object({ url: z.string() }).array(),
     price: z.coerce.number().min(1),
     categoryId: z.string().min(1),
-    colorId: z.string().min(1),
+    colorId: z.string().optional(),
     sizeId: z.string().min(1),
     durationId: z.string().min(1),
     ageId: z.string().min(1),
@@ -71,11 +69,22 @@ export const ProductForm: React.FC<ProductFromProps> = ({
 
     const form = useForm<ProductFormValues>({
         resolver: zodResolver(formSchema),
-        defaultValues: initialData ? {
-            ...initialData,
-            price: parseFloat(String(initialData?.price))
-        } : {
-            name: '',
+        defaultValues: initialData
+            ? {
+                  name: initialData.name || "",
+                  images: initialData.images?.map(img => ({ url: img.url })) || [],
+                  price: parseFloat(String(initialData.price)),
+                  categoryId: initialData.categoryId || "",
+                  colorId: initialData.colorId || "",
+                  sizeId: initialData.sizeId || "",
+                  durationId: initialData.durationId ?? "",
+                  ageId: initialData.ageId ?? "",
+                  destinationId: initialData.destinationId ?? "",
+                  isFeatured: initialData.isFeatured ?? false,
+                  isArchived: initialData.isArchived ?? false,
+              }
+            : {
+                  name: '',
             images: [],
             price: 0,
             categoryId: '',
