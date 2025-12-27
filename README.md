@@ -1,22 +1,29 @@
-- Clerk Authentication
-- PlanetScaler Database (My SQL)
-- Shadcn-ui
-- cloudinary
-- next-cloudinary
+# Little Monsters — Admin Dashboard
 
-* npx prisma init -y
-* npx prisma generate
-* npx prisma db push
-* npx prisma migrate reset
-* npx prisma db push --preview-feature
+Little Monsters Admin is a modern **e-commerce admin panel** designed to help store owners manage products, track sales, and oversee store activity in one place. It focuses on simplicity, security, and scalability, making daily store operations smoother and more efficient.
 
-* stripe login
+## Features
+- Create, update, and delete products
+- View sales and order insights
+- Secure authentication and protected routes
+- Fast, responsive, and minimal UI
+- Hosted on Vercel for reliable performance
 
-~ https://stackoverflow.com/questions/16073603/how-to-update-each-dependency-in-package-json-to-the-latest-version
+## Tech Stack
+- **Next.js**
+- **Prisma ORM**
+- **PostgreSQL**
+- **Clerk (Auth)**
 
-~ https://www.google.com/search?q=update+latest+version+npm+package+in+react&rlz=1C1ONGR_enIN1051IN1051&ei=keGwZI-GL4az4-EPr9ud0Ao&ved=0ahUKEwjPkqrvv42AAxWG2TgGHa9tB6oQ4dUDCA8&uact=5&oq=update+latest+version+npm+package+in+react&gs_lp=Egxnd3Mtd2l6LXNlcnAiKnVwZGF0ZSBsYXRlc3QgdmVyc2lvbiBucG0gcGFja2FnZSBpbiByZWFjdDIFECEYoAEyBRAhGKABSK5bUABYlllwAngBkAEAmAGmAqABiSiqAQYzLjMxLjK4AQPIAQD4AQGoAgrCAgcQABiKBRhDwgIREC4YgAQYsQMYgwEYxwEY0QPCAhYQABgDGI8BGOoCGLQCGIwDGOUC2AEBwgIWEC4YAxiPARjqAhi0AhiMAxjlAtgBAcICGBAAGAMYjwEY6gIYtAIYChiMAxjlAtgBAcICCBAAGIoFGJECwgILEAAYgAQYsQMYgwHCAgsQABiKBRixAxiDAcICBRAAGIAEwgINEAAYigUYsQMYgwEYQ8ICCBAAGIAEGLEDwgIGEAAYFhgewgIIEAAYigUYhgPCAggQABgIGB4YDcICCBAhGBYYHhgdwgIHECEYoAEYCuIDBBgAIEGIBgG6BgQIARgK&sclient=gws-wiz-serp
+## Live Link
+https://little-monsters-final.vercel.app/
 
-`npm i -g npm-check-updates`
-`ncu -u`
-`npm i`
-`npm i npm-check-updates -u`
+## Installation
+
+```bash
+git clone <your-repo-link>
+cd little-monsters-admin
+npm install
+npx prisma generate
+npx prisma migrate dev
+npm run dev
