@@ -4,9 +4,9 @@ export const getStockCount = async (storeId: string) => {
     const salesCount = await prismadb.product.count({
         where: {
             storeId,
-            isArchived: true,
         }
     });
+    console.log("Stock Count for storeId", storeId, "is", salesCount);
 
     return salesCount;
 }
