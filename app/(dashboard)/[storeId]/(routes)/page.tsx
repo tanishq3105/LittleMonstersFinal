@@ -6,20 +6,27 @@ import { Overview } from "@/components/overview";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import prismadb from "@/lib/prismadb"
 import { formatter } from "@/lib/utils";
 import { CreditCard, DollarSign, Package } from "lucide-react";
 
-const DashboardPage = async ({ params }: { params: Promise<{ storeId: string }> }) => {
-  const { storeId } = await params;
-  const store = await prismadb.store.findFirst({
-    where: { id: storeId }
-  });
+// Enable caching for this page
+export const revalidate = 300; // Cache for 5 minutes
 
-  const totalRevenue = await getTotalRevenue(storeId);
-  const salesCount = await getSalesCount(storeId);
-  const stockCount = await getStockCount(storeId);
-  const graphRevenue = await getGraphRevenue(storeId);
+const DashboardPage = async ({
+  params,
+}: {
+  params: Promise<{ storeId: string }>;
+}) => {
+  const { storeId } = await params;
+
+  // Run all queries in parallel for better performance
+  const [totalRevenue, salesCount, stockCount, graphRevenue] =
+    await Promise.all([
+      getTotalRevenue(storeId),
+      getSalesCount(storeId),
+      getStockCount(storeId),
+      getGraphRevenue(storeId),
+    ]);
 
   return (
     <div className="flex-col">
@@ -42,15 +49,11 @@ const DashboardPage = async ({ params }: { params: Promise<{ storeId: string }> 
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-              <CardTitle className="text-sm font-medium">
-                Sales
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">Sales</CardTitle>
               <CreditCard className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
-                +{salesCount}
-              </div>
+              <div className="text-2xl font-bold">+{salesCount}</div>
             </CardContent>
           </Card>
           <Card>
@@ -61,9 +64,7 @@ const DashboardPage = async ({ params }: { params: Promise<{ storeId: string }> 
               <Package className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
-                {stockCount}
-              </div>
+              <div className="text-2xl font-bold">{stockCount}</div>
             </CardContent>
           </Card>
         </div>
@@ -77,7 +78,7 @@ const DashboardPage = async ({ params }: { params: Promise<{ storeId: string }> 
         </Card>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DashboardPage
+export default DashboardPage;

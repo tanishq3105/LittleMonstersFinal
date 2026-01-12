@@ -10,7 +10,7 @@ export async function POST(
         const { userId } = await auth();
         const body = await req.json();
 
-        const { name, billboardId } = body; 
+        const { name } = body; 
         const { storeId } = await params; 
 
         if (!userId) {
@@ -19,10 +19,6 @@ export async function POST(
 
         if (!name) {
             return new NextResponse("Name is required", { status: 400});
-        }
-
-        if (!billboardId) {
-            return new NextResponse("Billboard id is required", { status: 400});
         }
 
         if (!storeId) {
@@ -43,7 +39,6 @@ export async function POST(
         const category = await prismadb.category.create({
             data : {
                 name,
-                billboardId,
                 storeId: storeId
             }
         })

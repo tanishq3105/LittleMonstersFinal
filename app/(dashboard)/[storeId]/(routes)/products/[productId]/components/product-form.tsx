@@ -6,8 +6,9 @@ import { Age, Category, Color, Destination, Duration, Image, Product, Size } fro
 import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Trash } from "lucide-react";
+import { Plus, Trash } from "lucide-react";
 import { useForm } from 'react-hook-form';
+import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -216,6 +217,13 @@ export const ProductForm: React.FC<ProductFromProps> = ({
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
+                                            <Link href={`/${params.storeId}/categories`}>
+                                                <div className="flex items-center px-2 py-1.5 text-sm cursor-pointer hover:bg-accent rounded-sm text-primary">
+                                                    <Plus className="w-4 h-4 mr-2" />
+                                                    Manage Categories
+                                                </div>
+                                            </Link>
+                                            <Separator className="my-1" />
                                             {categories.map(category => (
                                                 <SelectItem key={category.id} value={category.id}>
                                                     {category.name}
@@ -248,6 +256,13 @@ export const ProductForm: React.FC<ProductFromProps> = ({
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
+                                            <Link href={`/${params.storeId}/travelModes`}>
+                                                <div className="flex items-center px-2 py-1.5 text-sm cursor-pointer hover:bg-accent rounded-sm text-primary">
+                                                    <Plus className="w-4 h-4 mr-2" />
+                                                    Manage Travel Modes
+                                                </div>
+                                            </Link>
+                                            <Separator className="my-1" />
                                             {sizes.map(size => (
                                                 <SelectItem key={size.id} value={size.id}>
                                                     {size.name}
@@ -280,6 +295,13 @@ export const ProductForm: React.FC<ProductFromProps> = ({
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
+                                            <Link href={`/${params.storeId}/durations`}>
+                                                <div className="flex items-center px-2 py-1.5 text-sm cursor-pointer hover:bg-accent rounded-sm text-primary">
+                                                    <Plus className="w-4 h-4 mr-2" />
+                                                    Manage Durations
+                                                </div>
+                                            </Link>
+                                            <Separator className="my-1" />
                                             {durations.map(duration => (
                                                 <SelectItem key={duration.id} value={duration.id}>
                                                     {duration.name}
@@ -312,6 +334,13 @@ export const ProductForm: React.FC<ProductFromProps> = ({
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
+                                            <Link href={`/${params.storeId}/ages`}>
+                                                <div className="flex items-center px-2 py-1.5 text-sm cursor-pointer hover:bg-accent rounded-sm text-primary">
+                                                    <Plus className="w-4 h-4 mr-2" />
+                                                    Manage Ages
+                                                </div>
+                                            </Link>
+                                            <Separator className="my-1" />
                                             {ages.map(age => (
                                                 <SelectItem key={age.id} value={age.id}>
                                                     {age.name}
@@ -344,6 +373,13 @@ export const ProductForm: React.FC<ProductFromProps> = ({
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
+                                            <Link href={`/${params.storeId}/destinations`}>
+                                                <div className="flex items-center px-2 py-1.5 text-sm cursor-pointer hover:bg-accent rounded-sm text-primary">
+                                                    <Plus className="w-4 h-4 mr-2" />
+                                                    Manage Destinations
+                                                </div>
+                                            </Link>
+                                            <Separator className="my-1" />
                                             {destinations.map(destination => (
                                                 <SelectItem key={destination.id} value={destination.id}>
                                                     {destination.name}

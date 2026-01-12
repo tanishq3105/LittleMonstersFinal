@@ -1,12 +1,16 @@
 import prismadb from "@/lib/prismadb";
+import { unstable_cache } from "next/cache";
 
-export const getStockCount = async (storeId: string) => {
-    const salesCount = await prismadb.product.count({
-        where: {
-            storeId,
-        }
-    });
-    console.log("Stock Count for storeId", storeId, "is", salesCount);
+export const getStockCount = unstable_cache(
+    async (storeId: string) => {
+        const stockCount = await prismadb.product.count({
+            where: {
+                storeId,
+            }
+        });
 
-    return salesCount;
-}
+        return stockCount;
+    },
+    ["stock-count"],
+    { revalidate: 300, tags: ["products"] }
+);

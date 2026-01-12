@@ -18,7 +18,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ sto
         const { storeId } = await params;
 
         // Destructure the new format from frontend
-        const { items, phone, address } = body;
+        const { items, name, email, phone, address, paymentMethod } = body;
 
         // Validation
         if (!items || items.length === 0) {
@@ -28,9 +28,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ sto
             );
         }
 
-        if (!phone || !address) {
+        if (!name || !email || !phone || !address) {
             return NextResponse.json(
-                { success: false, error: "Phone and address are required" },
+                { success: false, error: "Name, email, phone and address are required" },
                 { status: 400, headers: corsHeaders }
             );
         }
@@ -75,16 +75,57 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ sto
             );
         }
 
-        // Create order in database (initially unpaid)
+        // Handle Cash on Delivery (COD) orders
+        if (paymentMethod === "cod") {
+            // Create order in database (unpaid, will be paid on delivery)
+            const order = await prismadb.order.create({
+                data: {
+                    storeId: storeId,
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    address: address,
+                    isPaid: false,
+                    paymentMethod: "COD",
+                    orderItems: {
+                        create: items.map((item: any) => ({
+                            productId: item.productId,
+                            quantity: item.quantity || 1
+                        }))
+                    }
+                },
+                include: {
+                    orderItems: true
+                }
+            });
+
+            return NextResponse.json(
+                {
+                    success: true,
+                    order: {
+                        id: order.id,
+                        amount: totalAmount,
+                        paymentMethod: "cod",
+                    }
+                },
+                { headers: corsHeaders }
+            );
+        }
+
+        // Handle Online Payment - create order in database (initially unpaid)
         const order = await prismadb.order.create({
             data: {
                 storeId: storeId,
+                name: name,
+                email: email,
                 phone: phone,
                 address: address,
                 isPaid: false,
+                paymentMethod: "ONLINE",
                 orderItems: {
                     create: items.map((item: any) => ({
-                        productId: item.productId
+                        productId: item.productId,
+                        quantity: item.quantity || 1
                     }))
                 }
             },
@@ -112,6 +153,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ sto
                     amount: totalAmount,
                     amountInPaise: razorpayOrder.amount,
                     currency: razorpayOrder.currency,
+                    paymentMethod: "online",
                 }
             },
             { headers: corsHeaders }

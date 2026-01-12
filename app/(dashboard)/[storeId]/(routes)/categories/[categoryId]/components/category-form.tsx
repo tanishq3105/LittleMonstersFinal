@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import * as z from 'zod'
-import { Billboard, Category } from "@prisma/client";
+import { Category } from "@prisma/client";
 import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -15,21 +15,18 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
 import { AlertModal } from '@/components/modals/alert-modal';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface SettingsFromProps {
     initialData: Category | null;
-    billboards: Billboard[];
 }
 
 const formSchema = z.object({
     name: z.string().min(1),
-    billboardId: z.string().min(1),
 })
 
 type CategoryFormValues = z.infer<typeof formSchema>;
 
-export const CategoryForm: React.FC<SettingsFromProps> = ({ initialData, billboards }) => {
+export const CategoryForm: React.FC<SettingsFromProps> = ({ initialData }) => {
 
     const params = useParams();
     const router = useRouter();
@@ -46,7 +43,6 @@ export const CategoryForm: React.FC<SettingsFromProps> = ({ initialData, billboa
         resolver: zodResolver(formSchema),
         defaultValues: initialData || {
             name: '',
-            billboardId: ''
         }
     });
 
@@ -116,43 +112,10 @@ export const CategoryForm: React.FC<SettingsFromProps> = ({ initialData, billboa
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control} 
-                            name="billboardId"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel>Billboard</FormLabel>
-                                    <Select
-                                        disabled={loading}
-                                        onValueChange={field.onChange}
-                                        value={field.value}
-                                        defaultValue={field.value}
-                                    >
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue
-                                                    defaultValue={field.value}
-                                                    placeholder='Select a billboard'
-                                                />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            {billboards.map(billboard => (
-                                                <SelectItem key={billboard.id} value={billboard.id}>
-                                                    {billboard.label}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
                     </div>
                     <Button disabled={loading} className='ml-auto' type='submit'>{action}</Button>
                 </form>
             </Form>
-            {/* <Separator /> */}
         </>
     )
 }

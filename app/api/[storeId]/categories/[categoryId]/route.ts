@@ -15,9 +15,6 @@ export async function GET (
         const category = await prismadb.category.findUnique({
             where: {
                 id: categoryId,
-            },
-            include: {
-                billboard: true
             }
         })
 
@@ -36,7 +33,7 @@ export async function PATCH (
         const { userId } = await auth();
         const body = await req.json();
 
-        const { name, billboardId } = body;
+        const { name } = body;
         const { storeId, categoryId } = await params; 
 
         if (!userId) {
@@ -45,10 +42,6 @@ export async function PATCH (
 
         if (!name) {
             return new NextResponse("Name is required", { status: 400 });
-        }
-
-        if (!billboardId) {
-            return new NextResponse("Billboard URL is required", { status: 400 });
         }
 
         if(!categoryId) {
@@ -72,7 +65,6 @@ export async function PATCH (
             },
             data: {
                 name,
-                billboardId,
             }
         })
 
