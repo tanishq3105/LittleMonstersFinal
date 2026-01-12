@@ -300,7 +300,7 @@ export const ProductForm: React.FC<ProductFromProps> = ({
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Select a size"
+                          placeholder="Select mode of travel"
                         />
                       </SelectTrigger>
                     </FormControl>

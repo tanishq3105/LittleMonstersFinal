@@ -88,19 +88,20 @@ model Product {
 }
 
 model Order {
-  id            String        @id @default(uuid())
-  storeId       String // Foreign Key to Store
-  store         Store         @relation("StoreToOrder", fields: [storeId], references: [id])
-  orderItems    OrderItem[] // Relation to OrderItem model
-  isPaid        Boolean       @default(false)
-  status        OrderStatus   @default(PENDING)
-  paymentMethod PaymentMethod @default(ONLINE)
-  name          String        @default("")
-  email         String        @default("")
-  phone         String        @default("")
-  address       String        @default("")
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id             String          @id @default(uuid())
+  storeId        String // Foreign Key to Store
+  store          Store           @relation("StoreToOrder", fields: [storeId], references: [id])
+  orderItems     OrderItem[] // Relation to OrderItem model
+  refundRequests RefundRequest[] // Relation to RefundRequest model
+  isPaid         Boolean         @default(false)
+  status         OrderStatus     @default(PENDING)
+  paymentMethod  PaymentMethod   @default(ONLINE)
+  name           String          @default("")
+  email          String          @default("")
+  phone          String          @default("")
+  address        String          @default("")
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
 
   @@index([storeId])
 }
@@ -205,4 +206,24 @@ model Image {
   updatedAt DateTime @updatedAt
 
   @@index([productId])
+}
+
+model RefundRequest {
+  id        String       @id @default(uuid())
+  orderId   String // Foreign Key to Order
+  order     Order        @relation(fields: [orderId], references: [id])
+  reason    String
+  status    RefundStatus @default(PENDING)
+  adminNote String?
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@index([orderId])
+}
+
+enum RefundStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  PROCESSED
 }
