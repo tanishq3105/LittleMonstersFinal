@@ -2,13 +2,13 @@ import prismadb from "@/lib/prismadb";
 import { auth } from '@clerk/nextjs/server'
 import { NextResponse } from "next/server"
 
-export async function GET (
+export async function GET(
     req: Request,
-    { params }: { params: Promise<{ categoryId: string }>}
+    { params }: { params: Promise<{ categoryId: string }> }
 ) {
     try {
-        const { categoryId } = await params; 
-        if(!categoryId) {
+        const { categoryId } = await params;
+        if (!categoryId) {
             return new NextResponse("Category id is required", { status: 400 });
         }
 
@@ -25,16 +25,16 @@ export async function GET (
     }
 }
 
-export async function PATCH (
+export async function PATCH(
     req: Request,
-    { params }: { params: Promise<{ storeId: string, categoryId: string }>}
+    { params }: { params: Promise<{ storeId: string, categoryId: string }> }
 ) {
     try {
         const { userId } = await auth();
         const body = await req.json();
 
         const { name } = body;
-        const { storeId, categoryId } = await params; 
+        const { storeId, categoryId } = await params;
 
         if (!userId) {
             return new NextResponse("Unauthenticated", { status: 401 })
@@ -44,7 +44,7 @@ export async function PATCH (
             return new NextResponse("Name is required", { status: 400 });
         }
 
-        if(!categoryId) {
+        if (!categoryId) {
             return new NextResponse("Category id is required", { status: 400 });
         }
 
@@ -77,19 +77,19 @@ export async function PATCH (
 
 //// Delete Method
 
-export async function DELETE (
+export async function DELETE(
     req: Request,
-    { params }: { params: Promise<{ storeId: string, categoryId: string }>}
+    { params }: { params: Promise<{ storeId: string, categoryId: string }> }
 ) {
     try {
         const { userId } = await auth();
-        const { storeId, categoryId } = await params; 
+        const { storeId, categoryId } = await params;
 
         if (!userId) {
             return new NextResponse("Unauthenticated", { status: 401 })
         }
 
-        if(!categoryId) {
+        if (!categoryId) {
             return new NextResponse("Category id is required", { status: 400 });
         }
 

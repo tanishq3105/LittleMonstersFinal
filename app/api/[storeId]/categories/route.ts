@@ -10,19 +10,19 @@ export async function POST(
         const { userId } = await auth();
         const body = await req.json();
 
-        const { name } = body; 
-        const { storeId } = await params; 
+        const { name } = body;
+        const { storeId } = await params;
 
         if (!userId) {
             return new NextResponse("Unauthenticated", { status: 401 });
         }
 
         if (!name) {
-            return new NextResponse("Name is required", { status: 400});
+            return new NextResponse("Name is required", { status: 400 });
         }
 
         if (!storeId) {
-            return new NextResponse("Store Id is required", { status: 400});
+            return new NextResponse("Store Id is required", { status: 400 });
         }
 
         const storeByUserId = await prismadb.store.findFirst({
@@ -37,7 +37,7 @@ export async function POST(
         }
 
         const category = await prismadb.category.create({
-            data : {
+            data: {
                 name,
                 storeId: storeId
             }
@@ -47,7 +47,7 @@ export async function POST(
 
     } catch (err) {
         console.log(`[CATEGORIES_POST] ${err}`);
-        return new NextResponse(`Internal error`, { status: 500})
+        return new NextResponse(`Internal error`, { status: 500 })
     }
 }
 
@@ -56,10 +56,10 @@ export async function GET(
     { params }: { params: Promise<{ storeId: string }> }
 ) {
     try {
-        const { storeId } = await params; 
+        const { storeId } = await params;
 
         if (!storeId) {
-            return new NextResponse("Store Id is required", { status: 400});
+            return new NextResponse("Store Id is required", { status: 400 });
         }
 
         const categories = await prismadb.category.findMany({
@@ -72,6 +72,6 @@ export async function GET(
 
     } catch (err) {
         console.log(`[CATEGORIES_GET] ${err}`);
-        return new NextResponse(`Internal error`, { status: 500})
+        return new NextResponse(`Internal error`, { status: 500 })
     }
 }
